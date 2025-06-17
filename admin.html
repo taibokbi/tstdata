@@ -83,9 +83,7 @@
         }
     </style>
 
-<!-- Firebase App -->
-
-<!-- Firebase App -->
+<!-- Firebase SDK -->
 <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
 <script>
@@ -93,23 +91,10 @@
     apiKey: "AIzaSyCGrL1YVZwM4vIgIPSZtnao_TGS_glf3aw",
     authDomain: "book-fa11d.firebaseapp.com",
     projectId: "book-fa11d",
-    storageBucket: "book-fa11d.firebasestorage.app",
+    storageBucket: "book-fa11d.appspot.com",
     messagingSenderId: "771215422411",
     appId: "1:771215422411:web:55723a39729e3621b3fc4e",
     measurementId: "G-EB5M3PMRWK"
-  };
-  firebase.initializeApp(firebaseConfig);
-  const db = firebase.firestore();
-</script>
-
-<script>
-  const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "your-project-id.firebaseapp.com",
-    projectId: "your-project-id",
-    storageBucket: "your-project-id.appspot.com",
-    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-    appId: "YOUR_APP_ID"
   };
   firebase.initializeApp(firebaseConfig);
   const db = firebase.firestore();
@@ -189,6 +174,7 @@
 
     <script>
     document.addEventListener('DOMContentLoaded', () => {
+        const storageKey = 'mosqueLibraryData';
         const password = 'admin2025';
 
         const loginScreen = document.getElementById('login-screen');
@@ -220,9 +206,26 @@
             }
         });
 
-        
+        const loadData = () => {
+            const storedData = localStorage.getItem(storageKey);
+            if (storedData) {
+                const parsedData = JSON.parse(storedData);
+                 // Data Migration: ensure new fields exist
+                parsedData.forEach(category => {
+                    category.books.forEach(book => {
+                        if (book.image === undefined) book.image = "";
+                        if (book.description === undefined) book.description = "";
+                    });
+                });
+                libraryData = parsedData;
+            } else {
+                alert('خطأ: لم يتم العثور على بيانات المكتبة. قم بزيارة index.html أولاً.');
+            }
+        };
 
-        
+        const saveData = () => {
+            localStorage.setItem(storageKey, JSON.stringify(libraryData));
+        };
         
         // --- Helper to convert file to Base64 ---
         const toBase64 = file => new Promise((resolve, reject) => {
@@ -395,67 +398,101 @@
 
 <script>
 document.addEventListener("DOMContentLoaded", async () => {
-  const categorySelect = document.getElementById("book-category");
-  const editCategorySelect = document.getElementById("edit-book-category-select");
+  loadBooksFromFirebase();
 
-  try {
-    const snapshot = await db.collection("books").get();
-    const categories = new Set();
-    snapshot.forEach(doc => {
-      const data = doc.data();
-      if (data.category) categories.add(data.category);
-    });
-    const sorted = Array.from(categories).sort((a, b) => a.localeCompare(b, 'ar'));
-    sorted.forEach(cat => {
-      const opt1 = new Option(cat, cat);
-      const opt2 = new Option(cat, cat);
-      categorySelect.appendChild(opt1);
-      editCategorySelect.appendChild(opt2);
-    });
-  } catch (err) {
-    alert("حدث خطأ أثناء تحميل الأقسام: " + err.message);
-  }
-});
-</script>
-
-
-<script>
-document.getElementById("add-book-form").addEventListener("submit", async (e) => {
-  e.preventDefault();
-
-  const title = document.getElementById("book-title").value.trim();
-  const author = document.getElementById("book-author").value.trim();
-  const edition = document.getElementById("book-edition").value.trim();
-  const volumes = document.getElementById("book-volumes").value.trim();
-  const category = document.getElementById("book-category").value.trim();
-  const description = document.getElementById("book-description").value.trim();
-  const imageFile = document.getElementById("book-image").files[0];
-
-  let imageBase64 = "";
-  if (imageFile) {
-    imageBase64 = await new Promise((resolve, reject) => {
+  document.getElementById("add-book-form").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const title = document.getElementById("book-title").value;
+    const author = document.getElementById("book-author").value;
+    const edition = document.getElementById("book-edition").value;
+    const volumes = document.getElementById("book-volumes").value;
+    const category = document.getElementById("book-category").value;
+    const description = document.getElementById("book-description").value;
+    const imageFile = document.getElementById("book-image").files[0];
+    let image = "";
+    if (imageFile) {
       const reader = new FileReader();
-      reader.onloadend = () => resolve(reader.result);
-      reader.onerror = reject;
+      reader.onloadend = () => {
+        image = reader.result;
+        saveBook({ title, author, edition, volumes, category, description, image });
+      };
       reader.readAsDataURL(imageFile);
-    });
-  }
+    } else {
+      saveBook({ title, author, edition, volumes, category, description, image });
+    }
+  });
 
-  if (!category) {
-    alert("⚠️ يرجى اختيار قسم.");
-    return;
-  }
-
-  try {
+  document.getElementById("add-category-btn").addEventListener("click", async () => {
+    const newCat = document.getElementById("new-category-name").value.trim();
+    if (!newCat) return alert("أدخل اسم القسم");
     await db.collection("books").add({
-      title, author, edition, volumes, category, description, image: imageBase64
+      title: "[قسم فارغ]",
+      author: "-",
+      edition: "-",
+      volumes: "1",
+      category: newCat,
+      description: "",
+      image: ""
     });
-    alert("✅ تم إضافة الكتاب بنجاح.");
-    e.target.reset();
-  } catch (err) {
-    alert("❌ فشل في حفظ الكتاب: " + err.message);
-  }
+    document.getElementById("new-category-name").value = "";
+    loadBooksFromFirebase();
+  });
 });
+
+async function saveBook(data) {
+  await db.collection("books").add(data);
+  document.getElementById("add-book-form").reset();
+  loadBooksFromFirebase();
+}
+
+async function loadBooksFromFirebase() {
+  const manageBookList = document.getElementById("manage-book-list");
+  const catSelect = document.getElementById("book-category");
+  const snapshot = await db.collection("books").get();
+  const books = [];
+  snapshot.forEach(doc => books.push({ id: doc.id, ...doc.data() }));
+
+  const categories = [...new Set(books.map(b => b.category || "غير مصنف"))];
+  catSelect.innerHTML = "";
+  categories.forEach(c => {
+    const opt = new Option(c, c);
+    catSelect.appendChild(opt);
+  });
+
+  manageBookList.innerHTML = "";
+  categories.forEach(cat => {
+    const section = document.createElement("div");
+    section.innerHTML = `<h3>${cat}</h3>`;
+    books.filter(b => b.category === cat).forEach(book => {
+      const item = document.createElement("div");
+      item.innerHTML = `
+        <b>${book.title}</b> (${book.author}) 
+        <button onclick="editBook('${book.id}')">تعديل</button> 
+        <button onclick="deleteBook('${book.id}')">حذف</button>`;
+      section.appendChild(item);
+    });
+    manageBookList.appendChild(section);
+  });
+}
+
+async function deleteBook(id) {
+  if (confirm("تأكيد حذف الكتاب؟")) {
+    await db.collection("books").doc(id).delete();
+    loadBooksFromFirebase();
+  }
+}
+
+async function editBook(id) {
+  const doc = await db.collection("books").doc(id).get();
+  const book = doc.data();
+  const title = prompt("عنوان جديد:", book.title);
+  const author = prompt("مؤلف جديد:", book.author);
+  const category = prompt("القسم:", book.category);
+  if (title && author && category) {
+    await db.collection("books").doc(id).update({ title, author, category });
+    loadBooksFromFirebase();
+  }
+}
 </script>
 
 </body>
