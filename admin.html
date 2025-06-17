@@ -1,11 +1,13 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>إدارة مكتبة المسجد</title>
-    <style>
-        :root {
+<html dir="rtl" lang="ar">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   إدارة مكتبة المسجد
+  </title>
+  <style>
+   :root {
             --primary-color: #087f5b; --secondary-color: #b8860b; --background-color: #f8f9fa;
             --card-background-color: #ffffff; --text-color: #343a40; --border-color: #dee2e6;
             --danger-color: #d9480f; --danger-hover: #c9400a; --success-color: var(--primary-color);
@@ -81,13 +83,13 @@
             .form-grid { grid-template-columns: 1fr; }
             .container { padding: 15px; }
         }
-    </style>
-
-<!-- Firebase SDK -->
-<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
-<script>
-  const firebaseConfig = {
+  </style>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js">
+  </script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js">
+  </script>
+  <script>
+   const firebaseConfig = {
     apiKey: "AIzaSyCGrL1YVZwM4vIgIPSZtnao_TGS_glf3aw",
     authDomain: "book-fa11d.firebaseapp.com",
     projectId: "book-fa11d",
@@ -98,309 +100,173 @@
   };
   firebase.initializeApp(firebaseConfig);
   const db = firebase.firestore();
-</script>
-
-</head>
-<body>
-
-    <div class="container" id="main-container">
-        <!-- Login Screen -->
-        <div id="login-screen">
-            <h1>لوحة تحكم المكتبة</h1>
-            <p>الرجاء إدخال كلمة المرور للوصول.</p>
-            <form id="login-form">
-                <input type="password" id="password" placeholder="كلمة المرور" required>
-                <br>
-                <button type="submit" class="btn btn-primary">دخول</button>
-            </form>
-            <p id="login-error" style="color: var(--danger-color); display: none;">كلمة المرور غير صحيحة.</p>
-        </div>
-
-        <!-- Main Admin Panel -->
-        <div id="admin-panel">
-            <h1>إدارة الكتب</h1>
-            
-            <div class="form-section">
-                <h2>إضافة كتاب جديد</h2>
-                <form id="add-book-form">
-                    <div class="form-grid">
-                        <div class="form-group full-width"> <label for="book-title">عنوان الكتاب</label> <input type="text" id="book-title" required> </div>
-                        <div class="form-group"> <label for="book-author">المؤلف</label> <input type="text" id="book-author" required> </div>
-                        <div class="form-group"> <label for="book-edition">الطبعة</label> <input type="text" id="book-edition" required> </div>
-                        <div class="form-group"> <label for="book-volumes">عدد المجلدات</label> <input type="text" id="book-volumes" value="1" required> </div>
-                        <div class="form-group"> <label for="book-category">القسم</label> <select id="book-category" required></select> </div>
-                        <div class="form-group full-width"> <label for="book-description">نبذة عن الكتاب</label> <textarea id="book-description"></textarea> </div>
-                        <div class="form-group full-width"> <label for="book-image">صورة الغلاف (اختياري)</label> <input type="file" id="book-image" accept="image/*"> </div>
-                    </div>
-                    <button type="submit" class="btn btn-success" style="margin-top: 20px;">إضافة الكتاب</button>
-                </form>
-            </div>
-
-            <div class="form-section">
-                <h2>قائمة الكتب الحالية</h2>
-                <div id="manage-book-list"></div>
-            </div>
-             <a href="index.html" target="_blank" style="text-align: center; display:block; margin-top: 20px; color: var(--secondary-color); font-weight: bold;">عرض صفحة المكتبة الرئيسية</a>
-        </div>
+  </script>
+ </head>
+ <body>
+  <div class="container" id="main-container">
+   <!-- Login Screen -->
+   <div id="login-screen">
+    <h1>
+     لوحة تحكم المكتبة
+    </h1>
+    <p>
+     الرجاء إدخال كلمة المرور للوصول.
+    </p>
+    <form id="login-form">
+     <input id="password" placeholder="كلمة المرور" required="" type="password"/>
+     <br/>
+     <button class="btn btn-primary" type="submit">
+      دخول
+     </button>
+    </form>
+    <p id="login-error" style="color: var(--danger-color); display: none;">
+     كلمة المرور غير صحيحة.
+    </p>
+   </div>
+   <!-- Main Admin Panel -->
+   <div id="admin-panel">
+    <h1>
+     إدارة الكتب
+    </h1>
+    <div class="form-section">
+     <h2>
+      إضافة كتاب جديد
+     </h2>
+     <form id="add-book-form">
+      <div class="form-grid">
+       <div class="form-group full-width">
+        <label for="book-title">
+         عنوان الكتاب
+        </label>
+        <input id="book-title" required="" type="text"/>
+       </div>
+       <div class="form-group">
+        <label for="book-author">
+         المؤلف
+        </label>
+        <input id="book-author" required="" type="text"/>
+       </div>
+       <div class="form-group">
+        <label for="book-edition">
+         الطبعة
+        </label>
+        <input id="book-edition" required="" type="text"/>
+       </div>
+       <div class="form-group">
+        <label for="book-volumes">
+         عدد المجلدات
+        </label>
+        <input id="book-volumes" required="" type="text" value="1"/>
+       </div>
+       <div class="form-group">
+        <label for="book-category">
+         القسم
+        </label>
+        <select id="book-category" required="">
+        </select>
+       </div>
+       <div class="form-group full-width">
+        <label for="book-description">
+         نبذة عن الكتاب
+        </label>
+        <textarea id="book-description"></textarea>
+       </div>
+       <div class="form-group full-width">
+        <label for="book-image">
+         صورة الغلاف (اختياري)
+        </label>
+        <input accept="image/*" id="book-image" type="file"/>
+       </div>
+      </div>
+      <button class="btn btn-success" style="margin-top: 20px;" type="submit">
+       إضافة الكتاب
+      </button>
+     </form>
     </div>
-
-    <!-- Edit Book Modal -->
-    <div id="edit-modal-overlay" class="modal-overlay">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>تعديل الكتاب</h2>
-                <button class="modal-close-btn">&times;</button>
-            </div>
-            <form id="edit-book-form">
-                <input type="hidden" id="edit-category-index">
-                <input type="hidden" id="edit-book-index">
-                <div class="form-grid">
-                    <div class="form-group full-width"> <label for="edit-book-title">عنوان الكتاب</label> <input type="text" id="edit-book-title" required> </div>
-                    <div class="form-group"> <label for="edit-book-author">المؤلف</label> <input type="text" id="edit-book-author" required> </div>
-                    <div class="form-group"> <label for="edit-book-edition">الطبعة</label> <input type="text" id="edit-book-edition" required> </div>
-                    <div class="form-group"> <label for="edit-book-volumes">عدد المجلدات</label> <input type="text" id="edit-book-volumes" required> </div>
-                    <div class="form-group"> <label for="edit-book-category-select">القسم</label> <select id="edit-book-category-select" required></select> </div>
-                    <div class="form-group full-width"> <label for="edit-book-description">نبذة عن الكتاب</label> <textarea id="edit-book-description"></textarea> </div>
-                    <div class="form-group full-width"> 
-                        <label for="edit-book-image">تغيير صورة الغلاف</label> <input type="file" id="edit-book-image" accept="image/*"> 
-                        <img id="image-preview" src="" alt="Image Preview">
-                    </div>
-                </div>
-                <button type="submit" class="btn btn-success" style="margin-top: 20px;">حفظ التعديلات</button>
-            </form>
-        </div>
+    <div class="form-section">
+     <h2>
+      قائمة الكتب الحالية
+     </h2>
+     <div id="manage-book-list">
+     </div>
     </div>
+    <a href="index.html" style="text-align: center; display:block; margin-top: 20px; color: var(--secondary-color); font-weight: bold;" target="_blank">
+     عرض صفحة المكتبة الرئيسية
+    </a>
+   </div>
+  </div>
+  <!-- Edit Book Modal -->
+  <div class="modal-overlay" id="edit-modal-overlay">
+   <div class="modal-content">
+    <div class="modal-header">
+     <h2>
+      تعديل الكتاب
+     </h2>
+     <button class="modal-close-btn">
+      ×
+     </button>
+    </div>
+    <form id="edit-book-form">
+     <input id="edit-category-index" type="hidden"/>
+     <input id="edit-book-index" type="hidden"/>
+     <div class="form-grid">
+      <div class="form-group full-width">
+       <label for="edit-book-title">
+        عنوان الكتاب
+       </label>
+       <input id="edit-book-title" required="" type="text"/>
+      </div>
+      <div class="form-group">
+       <label for="edit-book-author">
+        المؤلف
+       </label>
+       <input id="edit-book-author" required="" type="text"/>
+      </div>
+      <div class="form-group">
+       <label for="edit-book-edition">
+        الطبعة
+       </label>
+       <input id="edit-book-edition" required="" type="text"/>
+      </div>
+      <div class="form-group">
+       <label for="edit-book-volumes">
+        عدد المجلدات
+       </label>
+       <input id="edit-book-volumes" required="" type="text"/>
+      </div>
+      <div class="form-group">
+       <label for="edit-book-category-select">
+        القسم
+       </label>
+       <select id="edit-book-category-select" required="">
+       </select>
+      </div>
+      <div class="form-group full-width">
+       <label for="edit-book-description">
+        نبذة عن الكتاب
+       </label>
+       <textarea id="edit-book-description"></textarea>
+      </div>
+      <div class="form-group full-width">
+       <label for="edit-book-image">
+        تغيير صورة الغلاف
+       </label>
+       <input accept="image/*" id="edit-book-image" type="file"/>
+       <img alt="Image Preview" id="image-preview" src=""/>
+      </div>
+     </div>
+     <button class="btn btn-success" style="margin-top: 20px;" type="submit">
+      حفظ التعديلات
+     </button>
+    </form>
+   </div>
+  </div>
+  <script>
+   document.addEventListener("DOMContentLoaded", function () {
+  const form = document.getElementById("add-book-form");
+  if (!form) return;
 
-
-    <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const storageKey = 'mosqueLibraryData';
-        const password = 'admin2025';
-
-        const loginScreen = document.getElementById('login-screen');
-        const adminPanel = document.getElementById('admin-panel');
-        const loginForm = document.getElementById('login-form');
-        const passwordInput = document.getElementById('password');
-        const loginError = document.getElementById('login-error');
-        
-        const addBookForm = document.getElementById('add-book-form');
-        const manageBookList = document.getElementById('manage-book-list');
-        const categorySelect = document.getElementById('book-category');
-
-        // Edit Modal elements
-        const editModalOverlay = document.getElementById('edit-modal-overlay');
-        const editBookForm = document.getElementById('edit-book-form');
-        const closeModalBtn = document.querySelector('.modal-close-btn');
-
-        let libraryData = [];
-
-        loginForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            if (passwordInput.value === password) {
-                document.getElementById('main-container').style.maxWidth = '900px';
-                loginScreen.style.display = 'none';
-                adminPanel.style.display = 'block';
-                loadAndRenderAdminPanel();
-            } else {
-                loginError.style.display = 'block';
-            }
-        });
-
-        const loadData = () => {
-            const storedData = localStorage.getItem(storageKey);
-            if (storedData) {
-                const parsedData = JSON.parse(storedData);
-                 // Data Migration: ensure new fields exist
-                parsedData.forEach(category => {
-                    category.books.forEach(book => {
-                        if (book.image === undefined) book.image = "";
-                        if (book.description === undefined) book.description = "";
-                    });
-                });
-                libraryData = parsedData;
-            } else {
-                alert('خطأ: لم يتم العثور على بيانات المكتبة. قم بزيارة index.html أولاً.');
-            }
-        };
-
-        const saveData = () => {
-            localStorage.setItem(storageKey, JSON.stringify(libraryData));
-        };
-        
-        // --- Helper to convert file to Base64 ---
-        const toBase64 = file => new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = () => resolve(reader.result);
-            reader.onerror = error => reject(error);
-        });
-
-        const renderAdminPanel = () => {
-            manageBookList.innerHTML = '';
-            categorySelect.innerHTML = '';
-            document.getElementById('edit-book-category-select').innerHTML = '';
-
-            libraryData.forEach((category, categoryIndex) => {
-                // Populate dropdowns
-                const option = document.createElement('option');
-                option.value = category.category;
-                option.textContent = category.category;
-                categorySelect.appendChild(option);
-                document.getElementById('edit-book-category-select').appendChild(option.cloneNode(true));
-                
-                const categoryDiv = document.createElement('div');
-                categoryDiv.className = 'category-manage-section';
-                categoryDiv.innerHTML = `<h3>${category.category}</h3>`;
-
-                if (category.books.length > 0) {
-                     category.books.forEach((book, bookIndex) => {
-                        const bookItem = document.createElement('div');
-                        bookItem.className = 'book-list-item';
-                        bookItem.innerHTML = `
-                            <div class="book-details">
-                                <div class="title">${book.title}</div>
-                                <div class="author">${book.author}</div>
-                            </div>
-                            <div class="action-buttons">
-                                <button class="btn btn-primary edit-btn" data-category-index="${categoryIndex}" data-book-index="${bookIndex}">تعديل</button>
-                                <button class="btn btn-danger delete-btn" data-category-index="${categoryIndex}" data-book-index="${bookIndex}">حذف</button>
-                            </div>
-                        `;
-                        categoryDiv.appendChild(bookItem);
-                    });
-                } else {
-                    categoryDiv.innerHTML += '<p>لا توجد كتب في هذا القسم.</p>';
-                }
-                manageBookList.appendChild(categoryDiv);
-            });
-
-            // Add event listeners for new buttons
-            document.querySelectorAll('.delete-btn').forEach(btn => btn.addEventListener('click', handleDelete));
-            document.querySelectorAll('.edit-btn').forEach(btn => btn.addEventListener('click', handleEdit));
-        };
-
-        const handleDelete = (e) => {
-            const { categoryIndex, bookIndex } = e.target.dataset;
-            const bookTitle = libraryData[categoryIndex].books[bookIndex].title;
-            if (confirm(`هل أنت متأكد من حذف: "${bookTitle}"؟`)) {
-                libraryData[categoryIndex].books.splice(bookIndex, 1);
-                saveData();
-                renderAdminPanel();
-            }
-        };
-
-        const handleEdit = (e) => {
-            const { categoryIndex, bookIndex } = e.target.dataset;
-            const book = libraryData[categoryIndex].books[bookIndex];
-
-            document.getElementById('edit-category-index').value = categoryIndex;
-            document.getElementById('edit-book-index').value = bookIndex;
-            document.getElementById('edit-book-title').value = book.title;
-            document.getElementById('edit-book-author').value = book.author;
-            document.getElementById('edit-book-edition').value = book.edition;
-            document.getElementById('edit-book-volumes').value = book.volumes;
-            document.getElementById('edit-book-description').value = book.description || '';
-            document.getElementById('edit-book-category-select').value = libraryData[categoryIndex].category;
-            
-            const imagePreview = document.getElementById('image-preview');
-            imagePreview.src = book.image || '';
-            imagePreview.style.display = book.image ? 'block' : 'none';
-            
-            editModalOverlay.style.display = 'flex';
-        };
-
-        closeModalBtn.addEventListener('click', () => editModalOverlay.style.display = 'none');
-        editModalOverlay.addEventListener('click', (e) => {
-            if (e.target === editModalOverlay) editModalOverlay.style.display = 'none';
-        });
-
-        // Handle Add Book Form Submission
-        addBookForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const imageFile = document.getElementById('book-image').files[0];
-            let imageBase64 = '';
-            if (imageFile) {
-                imageBase64 = await toBase64(imageFile);
-            }
-
-            const newBook = {
-                title: document.getElementById('book-title').value.trim(),
-                author: document.getElementById('book-author').value.trim(),
-                edition: document.getElementById('book-edition').value.trim(),
-                volumes: document.getElementById('book-volumes').value.trim(),
-                description: document.getElementById('book-description').value.trim(),
-                image: imageBase64
-            };
-            
-            const selectedCategoryName = categorySelect.value;
-            const category = libraryData.find(cat => cat.category === selectedCategoryName);
-            if(category) {
-                category.books.push(newBook);
-                category.books.sort((a, b) => a.title.localeCompare(b.title, 'ar'));
-                saveData();
-                renderAdminPanel();
-                addBookForm.reset();
-                alert('تمت إضافة الكتاب بنجاح!');
-            }
-        });
-        
-        // Handle Edit Book Form Submission
-        editBookForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const categoryIndex = document.getElementById('edit-category-index').value;
-            const bookIndex = document.getElementById('edit-book-index').value;
-            const oldCategoryName = libraryData[categoryIndex].category;
-
-            const imageFile = document.getElementById('edit-book-image').files[0];
-            let imageBase64 = libraryData[categoryIndex].books[bookIndex].image; // Keep old image by default
-            if (imageFile) {
-                imageBase64 = await toBase64(imageFile);
-            }
-
-            const updatedBook = {
-                title: document.getElementById('edit-book-title').value.trim(),
-                author: document.getElementById('edit-book-author').value.trim(),
-                edition: document.getElementById('edit-book-edition').value.trim(),
-                volumes: document.getElementById('edit-book-volumes').value.trim(),
-                description: document.getElementById('edit-book-description').value.trim(),
-                image: imageBase64
-            };
-
-            const newCategoryName = document.getElementById('edit-book-category-select').value;
-            
-            // Check if category changed
-            if (oldCategoryName !== newCategoryName) {
-                // Remove from old category
-                libraryData[categoryIndex].books.splice(bookIndex, 1);
-                // Add to new category
-                const newCategory = libraryData.find(cat => cat.category === newCategoryName);
-                newCategory.books.push(updatedBook);
-                newCategory.books.sort((a, b) => a.title.localeCompare(b.title, 'ar'));
-            } else {
-                // Update in place
-                libraryData[categoryIndex].books[bookIndex] = updatedBook;
-            }
-
-            saveData();
-            renderAdminPanel();
-            editModalOverlay.style.display = 'none';
-            alert('تم تحديث الكتاب بنجاح!');
-        });
-
-        const loadAndRenderAdminPanel = () => {
-            loadData();
-            renderAdminPanel();
-        };
-
-    });
-    </script>
-
-<script>
-document.addEventListener("DOMContentLoaded", async () => {
-  loadBooksFromFirebase();
-
-  document.getElementById("add-book-form").addEventListener("submit", async (e) => {
+  form.addEventListener("submit", async function (e) {
     e.preventDefault();
     const title = document.getElementById("book-title").value;
     const author = document.getElementById("book-author").value;
@@ -412,87 +278,110 @@ document.addEventListener("DOMContentLoaded", async () => {
     let image = "";
     if (imageFile) {
       const reader = new FileReader();
-      reader.onloadend = () => {
+      reader.onloadend = async () => {
         image = reader.result;
-        saveBook({ title, author, edition, volumes, category, description, image });
+        await saveBook({ title, author, edition, volumes, category, description, image });
       };
       reader.readAsDataURL(imageFile);
     } else {
-      saveBook({ title, author, edition, volumes, category, description, image });
+      await saveBook({ title, author, edition, volumes, category, description, image });
     }
   });
 
-  document.getElementById("add-category-btn").addEventListener("click", async () => {
-    const newCat = document.getElementById("new-category-name").value.trim();
-    if (!newCat) return alert("أدخل اسم القسم");
-    await db.collection("books").add({
-      title: "[قسم فارغ]",
-      author: "-",
-      edition: "-",
-      volumes: "1",
-      category: newCat,
-      description: "",
-      image: ""
+  async function saveBook(data) {
+    await db.collection("books").add(data);
+    alert("✅ تم حفظ الكتاب في قاعدة البيانات");
+    form.reset();
+    loadBooks();
+  }
+
+  async function loadBooks() {
+    const bookList = document.getElementById("manage-book-list");
+    const categorySelect = document.getElementById("book-category");
+    const snapshot = await db.collection("books").get();
+    const books = [];
+    snapshot.forEach(doc => books.push({ id: doc.id, ...doc.data() }));
+    const categories = [...new Set(books.map(b => b.category || "غير مصنف"))];
+    categorySelect.innerHTML = "";
+    categories.forEach(c => {
+      const opt = new Option(c, c);
+      categorySelect.appendChild(opt);
     });
-    document.getElementById("new-category-name").value = "";
-    loadBooksFromFirebase();
-  });
+    bookList.innerHTML = "";
+    books.forEach(book => {
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td>${book.title}</td>
+        <td>${book.author}</td>
+        <td>${book.edition}</td>
+        <td>${book.volumes}</td>
+        <td>${book.category}</td>
+        <td>
+          <button onclick="editBook('${book.id}')">✏️</button>
+          <button onclick="deleteBook('${book.id}')">🗑</button>
+        </td>
+      `;
+      bookList.appendChild(row);
+    });
+  }
+
+  window.editBook = async function (id) {
+    const doc = await db.collection("books").doc(id).get();
+    const book = doc.data();
+    const newTitle = prompt("عنوان جديد:", book.title);
+    if (newTitle) {
+      await db.collection("books").doc(id).update({ title: newTitle });
+      loadBooks();
+    }
+  }
+
+  window.deleteBook = async function (id) {
+    if (confirm("تأكيد حذف الكتاب؟")) {
+      await db.collection("books").doc(id).delete();
+      loadBooks();
+    }
+  }
+
+  loadBooks();
 });
+  </script>
+ 
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const exportBtn = document.getElementById("export-csv");
+  if (exportBtn) {
+    exportBtn.addEventListener("click", async () => {
+      const snapshot = await db.collection("books").get();
+      const books = [];
+      snapshot.forEach(doc => books.push(doc.data()));
 
-async function saveBook(data) {
-  await db.collection("books").add(data);
-  document.getElementById("add-book-form").reset();
-  loadBooksFromFirebase();
-}
+      const csvRows = [];
+      const headers = ["عنوان", "المؤلف", "الطبعة", "عدد المجلدات", "القسم", "النبذة"];
+      csvRows.push(headers.join(","));
 
-async function loadBooksFromFirebase() {
-  const manageBookList = document.getElementById("manage-book-list");
-  const catSelect = document.getElementById("book-category");
-  const snapshot = await db.collection("books").get();
-  const books = [];
-  snapshot.forEach(doc => books.push({ id: doc.id, ...doc.data() }));
+      books.forEach(book => {
+        const row = [
+          book.title || "",
+          book.author || "",
+          book.edition || "",
+          book.volumes || "",
+          book.category || "",
+          book.description || ""
+        ];
+        csvRows.push(row.map(cell => `"${(cell + "").replace(/"/g, '""')}"`).join(","));
+      });
 
-  const categories = [...new Set(books.map(b => b.category || "غير مصنف"))];
-  catSelect.innerHTML = "";
-  categories.forEach(c => {
-    const opt = new Option(c, c);
-    catSelect.appendChild(opt);
-  });
-
-  manageBookList.innerHTML = "";
-  categories.forEach(cat => {
-    const section = document.createElement("div");
-    section.innerHTML = `<h3>${cat}</h3>`;
-    books.filter(b => b.category === cat).forEach(book => {
-      const item = document.createElement("div");
-      item.innerHTML = `
-        <b>${book.title}</b> (${book.author}) 
-        <button onclick="editBook('${book.id}')">تعديل</button> 
-        <button onclick="deleteBook('${book.id}')">حذف</button>`;
-      section.appendChild(item);
+      const csvContent = csvRows.join("\n");
+      const blob = new Blob(["\ufeff" + csvContent], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "الكتب.csv";
+      a.click();
+      URL.revokeObjectURL(url);
     });
-    manageBookList.appendChild(section);
-  });
-}
-
-async function deleteBook(id) {
-  if (confirm("تأكيد حذف الكتاب؟")) {
-    await db.collection("books").doc(id).delete();
-    loadBooksFromFirebase();
   }
-}
-
-async function editBook(id) {
-  const doc = await db.collection("books").doc(id).get();
-  const book = doc.data();
-  const title = prompt("عنوان جديد:", book.title);
-  const author = prompt("مؤلف جديد:", book.author);
-  const category = prompt("القسم:", book.category);
-  if (title && author && category) {
-    await db.collection("books").doc(id).update({ title, author, category });
-    loadBooksFromFirebase();
-  }
-}
+});
 </script>
 
 </body>
