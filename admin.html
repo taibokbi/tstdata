@@ -420,5 +420,42 @@ document.getElementById('add-category-btn').addEventListener('click', () => {
   alert("✅ تم إضافة القسم بنجاح. يمكنك الآن استخدامه عند إضافة كتاب.");
 });
 </script>
+<script>
+document.getElementById("add-book-form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const title = document.getElementById("book-title").value.trim();
+  const author = document.getElementById("book-author").value.trim();
+  const edition = document.getElementById("book-edition").value.trim();
+  const volumes = document.getElementById("book-volumes").value.trim();
+  const category = document.getElementById("book-category").value.trim();
+  const description = document.getElementById("book-description").value.trim();
+  const imageFile = document.getElementById("book-image").files[0];
+
+  let imageBase64 = "";
+  if (imageFile) {
+    const reader = new FileReader();
+    reader.onloadend = async function () {
+      imageBase64 = reader.result;
+      await saveToFirestore();
+    };
+    reader.readAsDataURL(imageFile);
+  } else {
+    await saveToFirestore();
+  }
+
+  async function saveToFirestore() {
+    try {
+      await db.collection("books").add({
+        title, author, edition, volumes, category, description, image: imageBase64
+      });
+      alert("✅ تم حفظ الكتاب بنجاح");
+      document.getElementById("add-book-form").reset();
+    } catch (err) {
+      alert("حدث خطأ أثناء الحفظ: " + err.message);
+    }
+  }
+});
+</script>
 </body>
 </html>
