@@ -135,7 +135,18 @@
         <div id="admin-panel">
             <h1>إدارة الكتب</h1>
             
-            <div class="form-section">
+            
+<div class="form-section">
+  <h2>إضافة قسم جديد</h2>
+  <div class="form-group full-width">
+    <label for="new-category-name">اسم القسم</label>
+    <input type="text" id="new-category-name" placeholder="مثال: قسم الحديث الشريف">
+  </div>
+  <button class="btn btn-primary" id="add-category-btn">➕ إضافة القسم</button>
+</div>
+
+
+                <div class="form-section">
                 <h2>إضافة كتاب جديد</h2>
                 <form id="add-book-form">
                     <div class="form-grid">
@@ -392,5 +403,22 @@
 
     });
     </script>
+<script>
+document.getElementById('add-category-btn').addEventListener('click', () => {
+  const newCategory = document.getElementById('new-category-name').value.trim();
+  if (!newCategory) return alert("يرجى إدخال اسم القسم");
+
+  const option1 = document.createElement("option");
+  option1.value = newCategory;
+  option1.textContent = newCategory;
+  document.getElementById("book-category").appendChild(option1);
+
+  const option2 = option1.cloneNode(true);
+  document.getElementById("edit-book-category-select").appendChild(option2);
+
+  document.getElementById('new-category-name').value = "";
+  alert("✅ تم إضافة القسم بنجاح. يمكنك الآن استخدامه عند إضافة كتاب.");
+});
+</script>
 </body>
 </html>
