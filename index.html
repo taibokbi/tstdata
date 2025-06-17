@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مكتبة المسجد - فهرس الكتب</title>
+    <style>
+        :root {
+            --primary-color: #087f5b; /* Rich Green */
+            --secondary-color: #b8860b; /* Dark Gold */
+            --background-color: #f8f9fa;
+            --card-background-color: #ffffff;
+            --text-color: #343a40;
+            --light-text-color: #6c757d;
+            --border-color: #e9ecef;
+            --header-bg: var(--primary-color);
+            --header-text-color: #ffffff;
+            --shadow-color: rgba(0, 0, 0, 0.07);
+            --hover-shadow-color: rgba(0, 0, 0, 0.12);
+        }
+        @font-face {
+            font-family: 'Tajawal';
+            src: url('https://fonts.gstatic.com/s/tajawal/v9/Iura6YBj_oCad4k1nzSBC45I.woff2') format('woff2');
+            font-weight: 400; font-style: normal; font-display: swap;
+        }
+        body {
+            font-family: 'Tajawal', -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif;
+            margin: 0; padding: 0; background-color: var(--background-color); color: var(--text-color);
+            line-height: 1.7; font-size: 17px;
+        }
+        .header {
+            background-color: var(--header-bg);
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath opacity='.5' d='M96 95h4v1h-4v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9zm-1 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm-90-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm-90-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm-90-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm-90-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm-90-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            padding: 25px 30px; box-shadow: 0 4px 12px var(--shadow-color); position: sticky;
+            top: 0; z-index: 1000; text-align: center; border-bottom: 4px solid var(--secondary-color);
+        }
+        .header h1 {
+            margin: 0 0 20px 0; color: var(--header-text-color); font-size: 2.5em;
+            font-weight: bold; text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+        }
+        .search-container { width: 100%; max-width: 650px; margin: 0 auto; position: relative; }
+        #searchInput {
+            width: 100%; padding: 14px 25px 14px 50px; font-size: 1.1em;
+            border: 1px solid transparent; border-radius: 50px; transition: all 0.3s;
+            box-sizing: border-box; font-family: inherit; background-color: rgba(255, 255, 255, 0.95);
+        }
+        .search-container::before {
+             content: '🔍'; position: absolute; left: 20px; top: 50%;
+             transform: translateY(-50%); font-size: 1.2em; color: var(--light-text-color); pointer-events: none;
+        }
+        #searchInput:focus {
+            outline: none; border-color: var(--secondary-color);
+            box-shadow: 0 0 10px rgba(184, 134, 11, 0.4); background-color: #fff;
+        }
+        #search-stats {
+            margin-top: 15px; color: rgba(255, 255, 255, 0.85); font-size: 1em;
+            text-align: center; height: 22px; transition: color 0.3s;
+        }
+        #libraryContainer { padding: 30px; max-width: 1300px; margin: 0 auto; }
+        .category-section {
+            background-color: var(--card-background-color); border-radius: 12px; margin-bottom: 25px;
+            border: 1px solid var(--border-color); overflow: hidden; box-shadow: 0 2px 5px var(--shadow-color);
+            transition: all 0.3s ease-in-out;
+        }
+        .category-section:hover { box-shadow: 0 5px 15px var(--hover-shadow-color); }
+        .category-section.hidden { display: none; }
+        .category-section summary {
+            padding: 20px 25px; font-size: 1.6em; font-weight: bold; color: var(--primary-color); cursor: pointer;
+            list-style: none; position: relative; outline: none; border-bottom: 1px solid transparent; transition: background-color 0.2s;
+        }
+        .category-section summary:hover { background-color: #f8f9fa; }
+        .category-section[open] > summary { border-bottom-color: var(--border-color); color: var(--secondary-color); }
+        .category-section summary::-webkit-details-marker { display: none; }
+        .category-section summary::before {
+            content: '＋'; font-size: 1em; font-weight: bold; color: var(--primary-color);
+            position: absolute; left: 25px; top: 50%; transform: translateY(-50%) rotate(0deg); transition: transform 0.3s ease;
+        }
+        .category-section[open] > summary::before { content: '−'; transform: translateY(-50%) rotate(180deg); }
+
+        .books-grid { padding: 25px; background-color: #fafbfc; display: grid; grid-template-columns: 1fr; gap: 20px; }
+        .book-card {
+            background-color: var(--card-background-color); border: 1px solid var(--border-color);
+            border-radius: 8px; display: flex; overflow: hidden;
+            box-shadow: 0 3px 6px var(--shadow-color);
+            transition: transform 0.25s, box-shadow 0.25s;
+        }
+        .book-card.hidden { display: none; }
+        .book-card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px var(--hover-shadow-color); }
+        .book-image-container {
+            flex-shrink: 0; width: 150px; background-color: #f1f3f5;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .book-image { width: 100%; height: 100%; object-fit: cover; }
+        .placeholder-icon { font-size: 50px; color: #ced4da; }
+        .book-details-container {
+            flex-grow: 1; padding: 20px; display: flex; flex-direction: column;
+        }
+        .book-title {
+            font-size: 1.4em; font-weight: bold; color: var(--primary-color);
+            margin: 0 0 5px 0;
+        }
+        .book-author { color: var(--text-color); margin: 0 0 15px 0; font-size: 1.05em; font-weight: normal; }
+        .book-author::before { content: 'المؤلف: '; font-weight: bold; color: var(--light-text-color); }
+        .book-description {
+            font-size: 0.95em; color: #495057; margin-bottom: 15px; line-height: 1.6;
+            max-height: 65px; overflow: hidden; text-overflow: ellipsis;
+        }
+        .book-description::before {
+            content: 'نبذة:'; display: block; font-weight: bold;
+            margin-bottom: 4px; color: var(--light-text-color);
+        }
+        .book-meta {
+            margin-top: auto; padding-top: 12px; border-top: 1px dashed var(--border-color);
+            font-size: 0.9em; color: var(--light-text-color); display: flex; justify-content: space-between; align-items: center;
+        }
+        .book-meta span { display: block; }
+        .book-meta .edition { flex-grow: 1; }
+        .book-meta .volumes::before { content: '📚 '; font-weight: bold; }
+
+        footer {
+            text-align: center; padding: 25px; margin-top: 30px; color: var(--light-text-color); font-size: 0.95em;
+            border-top: 1px solid var(--border-color); background-color: #fff;
+        }
+        .admin-link-button {
+            display: inline-block; margin-top: 15px; padding: 10px 22px;
+            background-image: linear-gradient(45deg, var(--primary-color), #0ca678);
+            color: white; text-decoration: none; border-radius: 30px; font-size: 1em; font-weight: bold;
+            transition: all 0.3s; box-shadow: 0 4px 10px rgba(8, 127, 91, 0.3);
+        }
+        .admin-link-button:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(8, 127, 91, 0.4); }
+        
+        @media (max-width: 768px) {
+            body { font-size: 16px; }
+            .header { padding: 20px 15px; }
+            .header h1 { font-size: 2em; }
+            #libraryContainer { padding: 20px; }
+            .category-section summary { padding: 18px; font-size: 1.4em; }
+            .book-card { flex-direction: column; }
+            .book-image-container { width: 100%; height: 200px; }
+            .book-details-container { padding: 15px; }
+            .book-title { font-size: 1.3em; }
+        }
+    </style>
+
+<!-- Firebase App -->
+
+<!-- Firebase App -->
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyCGrL1YVZwM4vIgIPSZtnao_TGS_glf3aw",
+    authDomain: "book-fa11d.firebaseapp.com",
+    projectId: "book-fa11d",
+    storageBucket: "book-fa11d.firebasestorage.app",
+    messagingSenderId: "771215422411",
+    appId: "1:771215422411:web:55723a39729e3621b3fc4e",
+    measurementId: "G-EB5M3PMRWK"
+  };
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+</script>
+
+<script>
+  const firebaseConfig = {
+    apiKey: "YOUR_API_KEY",
+    authDomain: "your-project-id.firebaseapp.com",
+    projectId: "your-project-id",
+    storageBucket: "your-project-id.appspot.com",
+    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+    appId: "YOUR_APP_ID"
+  };
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+</script>
+
+</head>
+<body>
+
+    <header class="header">
+        <h1>فهرس مكتبة مسجد الطيب العقبي</h1>
+        <div class="search-container">
+            <input type="search" id="searchInput" placeholder="ابحث في العناوين، المؤلفين، أو النبذات..." aria-label="شريط البحث">
+            <div id="search-stats"></div>
+        </div>
+    </header>
+
+    <main id="libraryContainer"></main>
+
+    <footer>
+        <p>&copy; 2025 - تم تطوير هذا الفهرس من قبل زكريا لنقر</p>
+        <a href="admin.html" target="_blank" class="admin-link-button">الإدارة</a>
+    </footer>
+
+    
+
+<script>
+document.addEventListener('DOMContentLoaded', async () => {
+  const snapshot = await db.collection("books").get();
+  const groupedData = {};
+  snapshot.forEach(doc => {
+    const book = doc.data();
+    const category = book.category || "غير مصنف";
+    if (!groupedData[category]) groupedData[category] = [];
+    groupedData[category].push(book);
+  });
+  renderLibrary(groupedData);
+});
+</script>
+
+</body>
+</html>
