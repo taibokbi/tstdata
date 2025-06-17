@@ -83,7 +83,9 @@
         }
     </style>
 
-<!-- Firebase SDK -->
+<!-- Firebase App -->
+
+<!-- Firebase App -->
 <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
 <script>
@@ -95,6 +97,19 @@
     messagingSenderId: "771215422411",
     appId: "1:771215422411:web:55723a39729e3621b3fc4e",
     measurementId: "G-EB5M3PMRWK"
+  };
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+</script>
+
+<script>
+  const firebaseConfig = {
+    apiKey: "YOUR_API_KEY",
+    authDomain: "your-project-id.firebaseapp.com",
+    projectId: "your-project-id",
+    storageBucket: "your-project-id.appspot.com",
+    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+    appId: "YOUR_APP_ID"
   };
   firebase.initializeApp(firebaseConfig);
   const db = firebase.firestore();
@@ -174,7 +189,6 @@
 
     <script>
     document.addEventListener('DOMContentLoaded', () => {
-        const storageKey = 'mosqueLibraryData';
         const password = 'admin2025';
 
         const loginScreen = document.getElementById('login-screen');
@@ -206,26 +220,9 @@
             }
         });
 
-        const loadData = () => {
-            const storedData = localStorage.getItem(storageKey);
-            if (storedData) {
-                const parsedData = JSON.parse(storedData);
-                 // Data Migration: ensure new fields exist
-                parsedData.forEach(category => {
-                    category.books.forEach(book => {
-                        if (book.image === undefined) book.image = "";
-                        if (book.description === undefined) book.description = "";
-                    });
-                });
-                libraryData = parsedData;
-            } else {
-                alert('خطأ: لم يتم العثور على بيانات المكتبة. قم بزيارة index.html أولاً.');
-            }
-        };
+        
 
-        const saveData = () => {
-            localStorage.setItem(storageKey, JSON.stringify(libraryData));
-        };
+        
         
         // --- Helper to convert file to Base64 ---
         const toBase64 = file => new Promise((resolve, reject) => {
@@ -397,6 +394,32 @@
     </script>
 
 <script>
+document.addEventListener("DOMContentLoaded", async () => {
+  const categorySelect = document.getElementById("book-category");
+  const editCategorySelect = document.getElementById("edit-book-category-select");
+
+  try {
+    const snapshot = await db.collection("books").get();
+    const categories = new Set();
+    snapshot.forEach(doc => {
+      const data = doc.data();
+      if (data.category) categories.add(data.category);
+    });
+    const sorted = Array.from(categories).sort((a, b) => a.localeCompare(b, 'ar'));
+    sorted.forEach(cat => {
+      const opt1 = new Option(cat, cat);
+      const opt2 = new Option(cat, cat);
+      categorySelect.appendChild(opt1);
+      editCategorySelect.appendChild(opt2);
+    });
+  } catch (err) {
+    alert("حدث خطأ أثناء تحميل الأقسام: " + err.message);
+  }
+});
+</script>
+
+
+<script>
 document.getElementById("add-book-form").addEventListener("submit", async (e) => {
   e.preventDefault();
 
@@ -409,7 +432,6 @@ document.getElementById("add-book-form").addEventListener("submit", async (e) =>
   const imageFile = document.getElementById("book-image").files[0];
 
   let imageBase64 = "";
-
   if (imageFile) {
     imageBase64 = await new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -419,20 +441,19 @@ document.getElementById("add-book-form").addEventListener("submit", async (e) =>
     });
   }
 
+  if (!category) {
+    alert("⚠️ يرجى اختيار قسم.");
+    return;
+  }
+
   try {
     await db.collection("books").add({
-      title,
-      author,
-      edition,
-      volumes,
-      category,
-      description,
-      image: imageBase64
+      title, author, edition, volumes, category, description, image: imageBase64
     });
-    alert("✅ تم حفظ الكتاب بنجاح");
+    alert("✅ تم إضافة الكتاب بنجاح.");
     e.target.reset();
   } catch (err) {
-    alert("❌ فشل الحفظ: " + err.message);
+    alert("❌ فشل في حفظ الكتاب: " + err.message);
   }
 });
 </script>
