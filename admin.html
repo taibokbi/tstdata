@@ -208,5 +208,19 @@
       }
     });
   </script>
+<script>
+(async () => {
+  try {
+    const testRef = db.collection("books").doc("connection_test");
+    await testRef.set({ status: "success", timestamp: new Date().toISOString() });
+    await testRef.delete();
+    alert("✅ تم الاتصال بنجاح بقاعدة بيانات Firebase");
+  } catch (err) {
+    alert("❌ فشل الاتصال بقاعدة البيانات:\n" + err.message);
+    console.error(err);
+  }
+})();
+</script>
+
 </body>
 </html>
