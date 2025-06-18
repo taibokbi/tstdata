@@ -64,10 +64,18 @@
 
         .category-manage-section details { border-bottom: 1px solid #eee; margin-bottom: 10px; }
         .category-manage-section summary { 
+            display: flex; /* Use flexbox for alignment */
+            justify-content: space-between; /* Pushes button to the right */
+            align-items: center; /* Vertically aligns items */
             padding: 12px; font-size: 1.2em; font-weight: bold; color: var(--primary-color); cursor: pointer;
-            list-style: none; /* For Webkit to hide marker with ::before */
+            list-style: none; 
             position: relative; outline: none; transition: background-color 0.2s;
         }
+        .category-manage-section summary .category-name { /* Wrapper for category name */
+            margin-right: auto; /* Keeps name to the right in RTL */
+            padding-left: 40px; /* Space for accordion marker */
+        }
+
         .category-manage-section summary:hover { background-color: #f0f0f0; }
         .category-manage-section details[open] > summary { color: var(--secondary-color); }
         .category-manage-section summary::-webkit-details-marker { display: none; }
@@ -77,7 +85,7 @@
         }
         .category-manage-section details[open] > summary::before { content: '−'; transform: translateY(-50%) rotate(180deg); }
 
-        .books-listing-admin { padding: 10px 10px 10px 35px; } /* Indent books under summary */
+        .books-listing-admin { padding: 10px 10px 10px 35px; } 
         .book-list-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--border-color); }
         .book-list-item:last-child { border-bottom: none; }
         .book-details { flex-grow: 1; padding-left: 15px; } .book-details .title { font-weight: bold; color: var(--text-color); }
@@ -85,17 +93,24 @@
 
         #admin-search-input { width: 100%; padding: 10px; margin-bottom: 20px; border: 1px solid var(--border-color); border-radius: 6px; box-sizing: border-box; }
 
-
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1050; justify-content: center; align-items: center; }
         .modal-content { background: #fff; padding: 30px; border-radius: 10px; max-width: 700px; width: 90%; max-height: 90vh; overflow-y: auto; position: relative; }
         .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 15px; margin-bottom: 20px; }
         .modal-close-btn { font-size: 2em; line-height: 1; color: #888; cursor: pointer; background: none; border: none; }
         #image-preview { max-width: 150px; height: auto; display: block; margin: 10px auto; border: 1px solid #ccc; padding: 5px; }
+        
+        .btn-delete-category {
+            font-size: 0.8em; padding: 5px 10px; margin-right: 10px; /* RTL: margin-left for LTR */
+            /* background-color: var(--danger-color); color: white; border-radius: 4px;
+            border: none; cursor: pointer; */
+        }
+
 
         @media (max-width: 600px) {
             .form-grid { grid-template-columns: 1fr; }
             .container { padding: 15px; }
             .category-manage-section summary::before { left: 5px; }
+             .category-manage-section summary .category-name { padding-left: 30px; }
             .books-listing-admin { padding: 10px 10px 10px 25px; }
         }
     </style>
@@ -166,7 +181,7 @@
             </div>
             <form id="edit-book-form">
                 <input type="hidden" id="edit-book-original-category-id">
-                <input type="hidden" id="edit-book-index"> <!-- This will be the original index in the category's books array -->
+                <input type="hidden" id="edit-book-index">
                 <div class="form-grid">
                     <div class="form-group full-width"> <label for="edit-book-title">عنوان الكتاب</label> <input type="text" id="edit-book-title" required> </div>
                     <div class="form-group"> <label for="edit-book-author">المؤلف</label> <input type="text" id="edit-book-author" required> </div>
@@ -204,8 +219,9 @@
     const analytics = firebase.analytics();
 
     const defaultLibraryData = [
-        // PASTE THE FULL defaultLibraryData ARRAY HERE (Same as the one in the previous admin.html)
-        // For brevity in this response, it's omitted but it's crucial for the initialize function.
+        // PASTE THE FULL defaultLibraryData ARRAY HERE
+        // (Same as in the previous version - it's quite large, so omitted for brevity in this display)
+        // Make sure this array is present in your actual code.
         {
             "category": "قسم التفسير وعلوم القرآن",
             "books": [
@@ -581,9 +597,9 @@
                 {"edition": "عطاءات العلم/ابن حزم/ط5/2019", "author": "أبو عبد الله محمد ابن قيم الجوية", "title": "جلاء الأفهام في فضل الصلاة والسلام على خير الأنام", "volumes": "1", "image": "", "description": ""},
                 {"edition": "عطاءات العلم/ابن حزم/ط4/2019", "author": "أبو عبد الله محمد ابن قيم الجوية", "title": "عُدّة الصابرين وذخيرة الشاكرين", "volumes": "1", "image": "", "description": ""},
                 {"edition": "عطاءات العلم/ابن حزم/ط5/2019", "author": "أبو عبد الله محمد ابن قيم الجوية", "title": "الوابل الصيب ورافع الكلم الطيب", "volumes": "1", "image": "", "description": ""},
-                {"edition": "عطاءات العلم/ابن حزم/ط3/2019", "author": "أبو عبد الله محمد ابن قيم الجوية", "title": "مفتاح دار السعادة ومنشور ولاية العلم والإرادة", "volumes": "3", "image": "", "description": ""},
+                {"edition": "عطاءات العلم/abn حزم/ط3/2019", "author": "أبو عبد الله محمد ابن قيم الجوية", "title": "مفتاح دار السعادة ومنشور ولاية العلم والإرادة", "volumes": "3", "image": "", "description": ""},
                 {"edition": "دار الهدي النبوي/دار الفضيلة/ط1/2011", "author": "أبو عبد الله محمد ابن قيم الجوية", "title": "طريق الهجرتين وباب السعادتين", "volumes": "1", "image": "", "description": ""},
-                {"edition": "عطاءات العلم/ابن حزم/ط3/2019", "author": "أبو عبد الله محمد ابن قيم الجوية", "title": "إغاثة اللهفان من مصايد الشيطان", "volumes": "2", "image": "", "description": ""},
+                {"edition": "عطاءات العلم/abn حزم/ط3/2019", "author": "أبو عبد الله محمد ابن قيم الجوية", "title": "إغاثة اللهفان من مصايد الشيطان", "volumes": "2", "image": "", "description": ""},
                 {"edition": "دار ابن كثير/ط6/2018", "author": "أبو الحسن علي بن حبيب البصري الماوردي", "title": "أدب الدنيا والدين", "volumes": "1", "image": "", "description": ""},
                 {"edition": "مكتبة المعارف/ط1/2001", "author": "محمود مهدي الإستانبولي", "title": "تحفة العروس أو الزواج الإسلامي السعيد", "volumes": "1", "image": "", "description": ""},
                 {"edition": "الناشر المتيمز/ط1/2018", "author": "أبو محمد عبد الرحمن حاتم الرازي", "title": "آداب الشافعي ومناقبه", "volumes": "1", "image": "", "description": ""},
@@ -648,8 +664,8 @@
         const editBookForm = document.getElementById('edit-book-form');
         const closeModalBtn = document.querySelector('.modal-close-btn');
 
-        let libraryData = []; // Stores {id, categoryName, order, books} from Firestore
-        let categoryNameMap = {}; // To quickly find category ID by name for dropdowns
+        let libraryData = []; 
+        let categoryNameMap = {}; 
 
 
         const normalizeText = (text) => {
@@ -660,7 +676,7 @@
         loginForm.addEventListener('submit', (e) => {
             e.preventDefault();
             if (passwordInput.value === password) {
-                document.getElementById('main-container').style.maxWidth = '900px'; // Keep existing logic
+                document.getElementById('main-container').style.maxWidth = '900px';
                 loginScreen.style.display = 'none';
                 adminPanel.style.display = 'block';
                 loadAndRenderAdminPanel();
@@ -708,7 +724,7 @@
             initializeDbBtn.textContent = 'جارٍ التهيئة...';
             await populateFirestoreFromDefaults();
             await loadDataFromFirestore();
-            renderAdminView(libraryData); // Use renderAdminView instead of renderAdminPanel directly
+            renderAdminView(libraryData);
             initializeDbBtn.disabled = false;
             initializeDbBtn.textContent = 'تهيئة قاعدة البيانات بالكتب الافتراضية';
         });
@@ -739,21 +755,19 @@
             reader.onerror = error => reject(error);
         });
 
-        // Main rendering function for admin book/category list
         const renderAdminView = (dataToDisplay) => {
             manageBookList.innerHTML = '';
             
-            // Populate category dropdowns for add/edit forms
             const addBookCategorySelect = document.getElementById('book-category');
             const editBookCategorySelect = document.getElementById('edit-book-category-select');
             addBookCategorySelect.innerHTML = '';
             editBookCategorySelect.innerHTML = '';
 
-            libraryData.forEach(catDoc => { // Always populate dropdowns with ALL categories from libraryData
+            libraryData.forEach(catDoc => {
                 const option = document.createElement('option');
-                option.value = catDoc.categoryName; // Use name for display/value
+                option.value = catDoc.categoryName; 
                 option.textContent = catDoc.categoryName;
-                option.dataset.categoryId = catDoc.id; // Store Firestore ID here
+                option.dataset.categoryId = catDoc.id; 
                 
                 addBookCategorySelect.appendChild(option.cloneNode(true));
                 editBookCategorySelect.appendChild(option.cloneNode(true));
@@ -768,22 +782,32 @@
                 const detailsElement = document.createElement('details');
                 detailsElement.className = 'category-manage-section';
                 if (categoryDoc.isSearchResult && categoryDoc.books.length > 0) {
-                     detailsElement.open = true; // Open if it's a search result with books
+                     detailsElement.open = true; 
                 }
 
                 const summaryElement = document.createElement('summary');
-                summaryElement.textContent = categoryDoc.categoryName;
+                
+                const categoryNameSpan = document.createElement('span');
+                categoryNameSpan.className = 'category-name';
+                categoryNameSpan.textContent = categoryDoc.categoryName;
+                summaryElement.appendChild(categoryNameSpan);
+
+                const deleteCategoryBtn = document.createElement('button');
+                deleteCategoryBtn.textContent = 'حذف القسم';
+                deleteCategoryBtn.className = 'btn btn-danger btn-delete-category';
+                deleteCategoryBtn.dataset.categoryId = categoryDoc.id;
+                deleteCategoryBtn.addEventListener('click', handleDeleteCategory);
+                summaryElement.appendChild(deleteCategoryBtn);
+                
                 detailsElement.appendChild(summaryElement);
 
                 const booksListingDiv = document.createElement('div');
                 booksListingDiv.className = 'books-listing-admin';
 
                 if (categoryDoc.books && categoryDoc.books.length > 0) {
-                     categoryDoc.books.forEach((book) => { // bookIndex is implicit if using forEach on filtered data
+                     categoryDoc.books.forEach((book) => { 
                         const bookItem = document.createElement('div');
                         bookItem.className = 'book-list-item';
-                        // If it's a search result, book.originalIndex refers to its position in the *original* categoryDoc.books
-                        // Otherwise, for full listing, the map index would be its direct index
                         const bookIndexForAction = book.hasOwnProperty('originalIndex') ? book.originalIndex : categoryDoc.books.indexOf(book);
 
                         bookItem.innerHTML = `
@@ -809,6 +833,29 @@
             document.querySelectorAll('.edit-btn').forEach(btn => btn.addEventListener('click', handleEdit));
         };
         
+        const handleDeleteCategory = async (e) => {
+            e.stopPropagation(); // Prevent the <details> accordion from toggling
+            e.preventDefault();   // Prevent any default summary action
+
+            const categoryId = e.target.dataset.categoryId;
+            const categoryDoc = libraryData.find(cat => cat.id === categoryId);
+            if (!categoryDoc) {
+                alert("خطأ: لم يتم العثور على القسم.");
+                return;
+            }
+
+            if (confirm(`هل أنت متأكد من حذف قسم "${categoryDoc.categoryName}" وجميع الكتب الموجودة فيه؟ هذا الإجراء لا يمكن التراجع عنه.`)) {
+                try {
+                    await db.collection("categories").doc(categoryId).delete();
+                    alert(`تم حذف قسم "${categoryDoc.categoryName}" بنجاح.`);
+                    await loadAndRenderAdminPanel(); // Reload and re-render the entire admin panel
+                } catch (error) {
+                    console.error("Error deleting category: ", error);
+                    alert(`خطأ في حذف القسم: ${error.message}`);
+                }
+            }
+        };
+
         addCategoryForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const categoryNameInput = document.getElementById('new-category-name');
@@ -817,13 +864,10 @@
                 alert("الرجاء إدخال اسم للقسم.");
                 return;
             }
-
-            // Check if category name already exists
             if (libraryData.some(cat => cat.categoryName.toLowerCase() === newCategoryName.toLowerCase())) {
                 alert("هذا القسم موجود بالفعل.");
                 return;
             }
-
             try {
                 const newOrder = libraryData.length > 0 ? Math.max(...libraryData.map(c => c.order)) + 1 : 0;
                 await db.collection("categories").add({
@@ -833,33 +877,28 @@
                 });
                 categoryNameInput.value = '';
                 alert("تمت إضافة القسم بنجاح!");
-                await loadAndRenderAdminPanel(); // Reload and re-render everything
+                await loadAndRenderAdminPanel();
             } catch (error) {
                 console.error("Error adding category:", error);
                 alert("خطأ في إضافة القسم: " + error.message);
             }
         });
 
-
         const handleDelete = async (e) => {
             const { categoryId, bookIndex } = e.target.dataset;
             const numericBookIndex = parseInt(bookIndex, 10);
             const categoryDoc = libraryData.find(cat => cat.id === categoryId);
             if (!categoryDoc || numericBookIndex < 0 || numericBookIndex >= categoryDoc.books.length) {
-                 console.error("Invalid category or book index for delete", categoryId, numericBookIndex, categoryDoc);
-                 alert("خطأ: بيانات الكتاب غير صالحة للحذف.");
-                 return;
+                 alert("خطأ: بيانات الكتاب غير صالحة للحذف."); return;
             }
-
             const bookTitle = categoryDoc.books[numericBookIndex].title;
             if (confirm(`هل أنت متأكد من حذف: "${bookTitle}"؟`)) {
                 try {
                     const updatedBooks = categoryDoc.books.filter((_, idx) => idx !== numericBookIndex);
                     await db.collection("categories").doc(categoryId).update({ books: updatedBooks });
-                    
                     categoryDoc.books = updatedBooks;
-                    renderAdminView(libraryData); // Re-render with current full data or filtered data
-                    handleAdminSearch(); // Apply current search term again
+                    renderAdminView(libraryData);
+                    handleAdminSearch();
                     alert('تم حذف الكتاب بنجاح.');
                 } catch (error) {
                     console.error("Error deleting book: ", error);
@@ -873,30 +912,24 @@
             const numericBookIndex = parseInt(bookIndex, 10);
             const categoryDoc = libraryData.find(cat => cat.id === categoryId);
              if (!categoryDoc || numericBookIndex < 0 || numericBookIndex >= categoryDoc.books.length) {
-                 console.error("Invalid category or book index for edit", categoryId, numericBookIndex, categoryDoc);
-                 alert("خطأ: بيانات الكتاب غير صالحة للتعديل.");
-                 return;
+                 alert("خطأ: بيانات الكتاب غير صالحة للتعديل."); return;
              }
             const book = categoryDoc.books[numericBookIndex];
-
             document.getElementById('edit-book-original-category-id').value = categoryId;
-            document.getElementById('edit-book-index').value = numericBookIndex; // Store the original index
+            document.getElementById('edit-book-index').value = numericBookIndex;
             document.getElementById('edit-book-title').value = book.title;
             document.getElementById('edit-book-author').value = book.author;
             document.getElementById('edit-book-edition').value = book.edition;
             document.getElementById('edit-book-volumes').value = book.volumes;
             document.getElementById('edit-book-description').value = book.description || '';
-            
             const editCategoryDropdown = document.getElementById('edit-book-category-select');
             Array.from(editCategoryDropdown.options).forEach(opt => {
                 opt.selected = opt.dataset.categoryId === categoryId;
             });
-
             const imagePreview = document.getElementById('image-preview');
             imagePreview.src = book.image || '';
             imagePreview.style.display = book.image ? 'block' : 'none';
             document.getElementById('edit-book-image').value = '';
-            
             editModalOverlay.style.display = 'flex';
         };
 
@@ -910,7 +943,6 @@
             const imageFile = document.getElementById('book-image').files[0];
             let imageBase64 = '';
             if (imageFile) imageBase64 = await toBase64(imageFile);
-
             const newBook = {
                 title: document.getElementById('book-title').value.trim(),
                 author: document.getElementById('book-author').value.trim(),
@@ -919,21 +951,17 @@
                 description: document.getElementById('book-description').value.trim(),
                 image: imageBase64
             };
-            
             const selectedOption = categorySelectForBookAdd.options[categorySelectForBookAdd.selectedIndex];
-            const categoryId = selectedOption.dataset.categoryId; // Get ID from data attribute
-
+            const categoryId = selectedOption.dataset.categoryId;
             const categoryDoc = libraryData.find(cat => cat.id === categoryId);
             if(categoryDoc) {
                 try {
                     const updatedBooks = [...categoryDoc.books, newBook];
                     updatedBooks.sort((a, b) => a.title.localeCompare(b.title, 'ar'));
-                    
                     await db.collection("categories").doc(categoryId).update({ books: updatedBooks });
-                    
                     categoryDoc.books = updatedBooks;
-                    renderAdminView(libraryData); // Re-render full list initially
-                    handleAdminSearch(); // Re-apply search filter
+                    renderAdminView(libraryData);
+                    handleAdminSearch();
                     addBookForm.reset();
                     document.getElementById('book-image').value = '';
                     alert('تمت إضافة الكتاب بنجاح!');
@@ -948,19 +976,15 @@
         
         editBookForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            
             const originalCategoryId = document.getElementById('edit-book-original-category-id').value;
             const bookIndex = parseInt(document.getElementById('edit-book-index').value, 10);
-            
             const originalCategoryDoc = libraryData.find(cat => cat.id === originalCategoryId);
              if (!originalCategoryDoc || bookIndex < 0 || bookIndex >= originalCategoryDoc.books.length) {
                 alert("خطأ: لم يتم العثور على بيانات الكتاب الأصلي."); return;
             }
-
             const imageFile = document.getElementById('edit-book-image').files[0];
             let imageBase64 = originalCategoryDoc.books[bookIndex].image; 
             if (imageFile) imageBase64 = await toBase64(imageFile);
-
             const updatedBookData = {
                 title: document.getElementById('edit-book-title').value.trim(),
                 author: document.getElementById('edit-book-author').value.trim(),
@@ -969,11 +993,9 @@
                 description: document.getElementById('edit-book-description').value.trim(),
                 image: imageBase64
             };
-
             const newCategorySelect = document.getElementById('edit-book-category-select');
             const newSelectedOption = newCategorySelect.options[newCategorySelect.selectedIndex];
             const newCategoryId = newSelectedOption.dataset.categoryId;
-
             try {
                 if (originalCategoryId === newCategoryId) {
                     const updatedBooks = [...originalCategoryDoc.books];
@@ -982,12 +1004,9 @@
                     await db.collection("categories").doc(originalCategoryId).update({ books: updatedBooks });
                     originalCategoryDoc.books = updatedBooks;
                 } else {
-                    // Remove from old category's books array
                     const oldCategoryBooks = originalCategoryDoc.books.filter((_, idx) => idx !== bookIndex);
                     await db.collection("categories").doc(originalCategoryId).update({ books: oldCategoryBooks });
                     originalCategoryDoc.books = oldCategoryBooks;
-
-                    // Add to new category's books array
                     const newCategoryDoc = libraryData.find(cat => cat.id === newCategoryId);
                      if (!newCategoryDoc) { alert("خطأ: لم يتم العثور على القسم الجديد."); return; }
                     const newCategoryBooks = [...newCategoryDoc.books, updatedBookData];
@@ -995,12 +1014,10 @@
                     await db.collection("categories").doc(newCategoryId).update({ books: newCategoryBooks });
                     newCategoryDoc.books = newCategoryBooks;
                 }
-                
                 renderAdminView(libraryData);
-                handleAdminSearch(); // Re-apply search filter
+                handleAdminSearch();
                 editModalOverlay.style.display = 'none';
                 alert('تم تحديث الكتاب بنجاح!');
-
             } catch (error) {
                 console.error("Error updating book: ", error);
                 alert(`خطأ في تحديث الكتاب: ${error.message}`);
@@ -1010,19 +1027,17 @@
         const handleAdminSearch = () => {
             const searchTerm = normalizeText(adminSearchInput.value);
             if (!searchTerm) {
-                renderAdminView(libraryData); // Render all if search is empty
+                renderAdminView(libraryData);
                 return;
             }
-
             const filteredResults = [];
             libraryData.forEach(categoryDoc => {
                 const matchingBooks = categoryDoc.books
-                    .map((book, originalIndex) => ({ ...book, originalIndex })) // Add original index
+                    .map((book, originalIndex) => ({ ...book, originalIndex }))
                     .filter(book =>
                         normalizeText(book.title).includes(searchTerm) ||
                         normalizeText(book.author).includes(searchTerm)
                     );
-
                 if (matchingBooks.length > 0) {
                     filteredResults.push({
                         ...categoryDoc,
@@ -1035,11 +1050,10 @@
         };
         adminSearchInput.addEventListener('input', handleAdminSearch);
 
-
         const loadAndRenderAdminPanel = async () => {
             manageBookList.innerHTML = '<p>جارٍ تحميل الأقسام والكتب...</p>';
             await loadDataFromFirestore();
-            renderAdminView(libraryData); // Initial render with all data
+            renderAdminView(libraryData);
         };
 
     });
