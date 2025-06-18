@@ -30,21 +30,21 @@
         }
         .header {
             background-color: var(--header-bg);
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath opacity='.5' d='M96 95h4v1h-4v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9zm-1 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm-90-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm-90-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm-90-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm-90-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-            padding: 25px 30px; box-shadow: 0 4px 12px var(--shadow-color); position: sticky;
-            top: 0; z-index: 1000; text-align: center; border-bottom: 4px solid var(--secondary-color);
-            /* Height needs to be fixed if we want the main content to correctly push down */
-            min-height: 100px; /* Adjust as needed for title only */
-            display: flex; /* To center the title */
-            align-items: center; /* Vertical centering */
-            justify-content: center; /* Horizontal centering */
+            /* Updated subtle geometric background */
+            background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0l20 20M0 20L20 0' stroke-width='1' stroke='%23ffffff' fill='none' stroke-opacity='0.06'/%3E%3C/svg%3E");
+            padding: 25px 30px; 
+            box-shadow: 0 2px 8px var(--shadow-color); /* Softer shadow for non-sticky header */
+            text-align: center; 
+            border-bottom: 4px solid var(--secondary-color);
+            /* Removed: position: sticky; top: 0; z-index: 1000; */
+            /* min-height, display: flex, align-items, justify-content are for specific title centering which might conflict if more elements were in header */
         }
         .header h1 {
             margin: 0; color: var(--header-text-color); font-size: 2.5em;
             font-weight: bold; text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
         }
        
-        #libraryContainer { padding: 30px; max-width: 1300px; margin: 0 auto; }
+        #libraryContainer { padding: 30px; max-width: 1300px; margin: 20px auto; } /* Added margin-top since header isn't sticky */
         .category-section {
             background-color: var(--card-background-color); border-radius: 12px; margin-bottom: 25px;
             border: 1px solid var(--border-color); overflow: hidden; box-shadow: 0 2px 5px var(--shadow-color);
@@ -68,14 +68,15 @@
         .books-grid { padding: 25px; background-color: #fafbfc; display: grid; grid-template-columns: 1fr; gap: 20px; }
         .book-card {
             background-color: var(--card-background-color); border: 1px solid var(--border-color);
-            border-radius: 8px; display: flex; overflow: hidden;
+            border-radius: 8px; display: flex; overflow: hidden; /* Desktop: row layout */
             box-shadow: 0 3px 6px var(--shadow-color);
             transition: transform 0.25s, box-shadow 0.25s;
         }
         .book-card.hidden { display: none; }
         .book-card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px var(--hover-shadow-color); }
         .book-image-container {
-            flex-shrink: 0; width: 150px; background-color: #f1f3f5;
+            flex-shrink: 0; width: 150px; /* Desktop: image on the side */
+            background-color: #f1f3f5;
             display: flex; align-items: center; justify-content: center;
         }
         .book-image { width: 100%; height: 100%; object-fit: cover; }
@@ -108,56 +109,73 @@
         /* Floating Search Area */
         #floating-search-area {
             position: fixed;
-            top: 20px; /* Adjust as needed */
-            right: 20px; /* Adjust as needed */
-            z-index: 1005; /* Higher than header if necessary, but header is 1000 */
+            top: 20px;
+            right: 20px;
+            z-index: 1005; 
         }
         #floating-search-toggle-button {
-            background-color: var(--secondary-color);
+            background-color: rgba(8, 127, 91, 0.85); /* Primary color with some transparency */
+            backdrop-filter: blur(5px); /* Frosted glass effect for modern feel */
+            -webkit-backdrop-filter: blur(5px);
             color: white;
-            border: none;
+            border: 1px solid rgba(255,255,255,0.2);
             border-radius: 50%;
             width: 50px;
             height: 50px;
-            font-size: 24px;
+            font-size: 22px; /* Icon size */
             cursor: pointer;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            box-shadow: 0 3px 12px rgba(0,0,0,0.2);
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: background-color 0.3s;
+            transition: background-color 0.3s, transform 0.2s;
         }
         #floating-search-toggle-button:hover {
-            background-color: #a3710a; /* Darker gold */
+            background-color: var(--primary-color); /* Solid on hover */
+            transform: scale(1.05);
         }
         #floating-search-dropdown {
-            display: none; /* Hidden by default */
+            display: none;
             position: absolute;
-            top: 60px; /* Below the button */
+            top: 60px; 
             right: 0;
             background-color: white;
             border: 1px solid var(--border-color);
             border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.18);
             padding: 15px;
-            width: 300px; /* Adjust as needed */
+            width: 300px; 
+            opacity: 0; /* For transition */
+            transform: translateY(-10px); /* For transition */
+            transition: opacity 0.25s ease-out, transform 0.25s ease-out;
+        }
+         #floating-search-dropdown.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
         }
         #floating-search-dropdown input[type="search"] {
             width: 100%;
-            padding: 10px;
+            padding: 12px;
             font-size: 1em;
             border: 1px solid var(--border-color);
             border-radius: 6px;
             box-sizing: border-box;
             margin-bottom: 10px;
+            font-family: 'Tajawal', sans-serif;
+        }
+        #floating-search-dropdown input[type="search"]:focus {
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 2px rgba(184, 134, 11, 0.2);
+            outline: none;
         }
         #floatingSearchStats {
             font-size: 0.9em;
             color: var(--light-text-color);
             text-align: center;
-            height: 20px; /* To prevent layout shift */
+            height: 20px; 
+            padding-top: 5px;
         }
-
 
         footer {
             text-align: center; padding: 25px; margin-top: 30px; color: var(--light-text-color); font-size: 0.95em;
@@ -173,17 +191,28 @@
         
         @media (max-width: 768px) {
             body { font-size: 16px; }
-            .header { padding: 20px 15px; min-height: 80px; }
-            .header h1 { font-size: 1.8em; }
-            #libraryContainer { padding: 20px; }
-            .category-section summary { padding: 18px; font-size: 1.4em; }
-            .book-card { flex-direction: column; }
-            .book-image-container { width: 100%; height: 200px; }
-            .book-details-container { padding: 15px; }
+            .header { padding: 20px 15px; /* Adjust if title looks too cramped */ }
+            .header h1 { font-size: 1.8em; } /* Slightly smaller for mobile if needed */
+            #libraryContainer { padding: 20px 15px; margin-top: 15px; } /* Ensure some space from non-sticky header */
+            
+            .category-section summary { padding: 18px 20px; font-size: 1.4em; }
+            .category-section summary::before { left: 20px; } /* Adjust icon position */
+
+            .book-card { 
+                flex-direction: column; /* Image top, text below */
+            }
+            .book-image-container { 
+                width: 100%; /* Image container full width */
+                height: 200px; /* Fixed height for image container */
+            }
+            .book-details-container { 
+                padding: 15px; 
+            }
             .book-title { font-size: 1.3em; }
+
             #floating-search-area { top: 15px; right: 15px;}
             #floating-search-toggle-button { width: 45px; height: 45px; font-size: 20px; }
-            #floating-search-dropdown { width: 250px; top: 55px;}
+            #floating-search-dropdown { width: calc(100vw - 40px); max-width: 300px; top: 55px;} /* Responsive width */
         }
     </style>
 </head>
@@ -191,7 +220,6 @@
 
     <header class="header">
         <h1>فهرس مكتبة مسجد الطيب العقبي</h1>
-        <!-- Original search container removed from here -->
     </header>
 
     <main id="libraryContainer">
@@ -232,11 +260,12 @@
 
     document.addEventListener('DOMContentLoaded', () => {
         const libraryContainer = document.getElementById('libraryContainer');
-        // Updated IDs for new search mechanism
         const floatingSearchInput = document.getElementById('floatingSearchInput');
         const floatingSearchStats = document.getElementById('floatingSearchStats');
         const floatingSearchToggleButton = document.getElementById('floating-search-toggle-button');
         const floatingSearchDropdown = document.getElementById('floating-search-dropdown');
+        const floatingSearchArea = document.getElementById('floating-search-area');
+
 
         let totalBooks = 0;
         let currentLibraryData = [];
@@ -333,7 +362,7 @@
         };
 
         const handleSearch = () => {
-            const searchTerm = normalizeText(floatingSearchInput.value); // Use new input ID
+            const searchTerm = normalizeText(floatingSearchInput.value);
             const allCategories = document.querySelectorAll('.category-section');
             let visibleBooksCount = 0;
 
@@ -384,22 +413,22 @@
 
         if(floatingSearchToggleButton && floatingSearchDropdown) {
             floatingSearchToggleButton.addEventListener('click', (event) => {
-                event.stopPropagation(); // Prevent click from immediately closing dropdown
-                const isVisible = floatingSearchDropdown.style.display === 'block';
-                floatingSearchDropdown.style.display = isVisible ? 'none' : 'block';
-                if (!isVisible) {
+                event.stopPropagation(); 
+                const isActive = floatingSearchDropdown.classList.contains('active');
+                if (isActive) {
+                    floatingSearchDropdown.classList.remove('active');
+                } else {
+                    floatingSearchDropdown.classList.add('active');
                     floatingSearchInput.focus();
                 }
             });
 
-            // Close dropdown if clicked outside
             document.addEventListener('click', (event) => {
-                if (!floatingSearchArea.contains(event.target) && floatingSearchDropdown.style.display === 'block') {
-                    floatingSearchDropdown.style.display = 'none';
+                if (!floatingSearchArea.contains(event.target) && floatingSearchDropdown.classList.contains('active')) {
+                    floatingSearchDropdown.classList.remove('active');
                 }
             });
         }
-
 
         async function initializePage() {
             currentLibraryData = await loadLibraryData();
