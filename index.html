@@ -141,24 +141,6 @@
             .book-title { font-size: 1.3em; }
         }
     </style>
-
-<!-- Firebase SDK -->
-<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
-<script>
-  const firebaseConfig = {
-    apiKey: "AIzaSyCGrL1YVZwM4vIgIPSZtnao_TGS_glf3aw",
-    authDomain: "book-fa11d.firebaseapp.com",
-    projectId: "book-fa11d",
-    storageBucket: "book-fa11d.appspot.com",
-    messagingSenderId: "771215422411",
-    appId: "1:771215422411:web:55723a39729e3621b3fc4e",
-    measurementId: "G-EB5M3PMRWK"
-  };
-  firebase.initializeApp(firebaseConfig);
-  const db = firebase.firestore();
-</script>
-
 </head>
 <body>
 
@@ -682,7 +664,7 @@
                 libraryContainer.appendChild(categorySection);
             });
             totalBooks = totalBookCount;
-            searchStats.textContent = `إجمالي عدد الكتب: ${totalBooks}`;
+            searchStats.textContent = `إجمالي عدد الكتب: <span id="total-count">0</span> ${totalBooks}`;
         };
 
         const handleSearch = () => {
@@ -691,7 +673,7 @@
             let visibleBooksCount = 0;
 
             if (!searchTerm) {
-                searchStats.textContent = `إجمالي عدد الكتب: ${totalBooks}`;
+                searchStats.textContent = `إجمالي عدد الكتب: <span id="total-count">0</span> ${totalBooks}`;
                 allCategories.forEach(category => {
                     category.classList.remove('hidden');
                     category.open = false;
@@ -734,27 +716,69 @@
         renderLibrary(currentLibraryData);
     });
     </script>
+<div id="book-sections" class="container mt-5"></div>
 
-<script>
-document.addEventListener("DOMContentLoaded", async () => {
-  try {
-    const snapshot = await db.collection("books").get();
-    const groupedData = {};
+<!-- Firebase -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import {
+    getFirestore, collection, getDocs, query
+  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCGrL1YVZwM4vIgIPSZtnao_TGS_glf3aw",
+    authDomain: "book-fa11d.firebaseapp.com",
+    projectId: "book-fa11d",
+    storageBucket: "book-fa11d.firebasestorage.app",
+    messagingSenderId: "771215422411",
+    appId: "1:771215422411:web:55723a39729e3621b3fc4e",
+    measurementId: "G-EB5M3PMRWK"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  const bookListContainer = document.getElementById("book-sections");
+  const totalCountElement = document.getElementById("total-count");
+
+  async function renderBooksFromFirebase() {
+    const booksRef = collection(db, "books");
+    const snapshot = await getDocs(query(booksRef));
+
+    const sections = {};
     snapshot.forEach(doc => {
       const book = doc.data();
-      const category = book.category || "غير مصنف";
-      if (!groupedData[category]) groupedData[category] = [];
-      groupedData[category].push(book);
+      const section = book.section || "غير مصنف";
+      if (!sections[section]) sections[section] = [];
+      sections[section].push(book);
     });
-    if (typeof renderLibrary === "function") {
-      renderLibrary(groupedData);
-    } else {
-      console.error("⚠️ دالة renderLibrary غير موجودة!");
+
+    // عرض الأقسام والكتب
+    bookListContainer.innerHTML = "";
+    let totalCount = 0;
+    for (const [section, books] of Object.entries(sections)) {
+      const sectionElement = document.createElement("div");
+      sectionElement.className = "section";
+
+      const header = document.createElement("h2");
+      header.textContent = `📚 ${section} (عدد الكتب: ${books.length})`;
+      sectionElement.appendChild(header);
+
+      const ul = document.createElement("ul");
+      books.forEach(book => {
+        const li = document.createElement("li");
+        li.textContent = `${book.title} – ${book.author}`;
+        ul.appendChild(li);
+      });
+      sectionElement.appendChild(ul);
+      bookListContainer.appendChild(sectionElement);
+      totalCount += books.length;
     }
-  } catch (err) {
-    console.error("❌ فشل في جلب البيانات من Firebase:", err);
+
+    if (totalCountElement) totalCountElement.textContent = totalCount;
   }
-});
+
+  renderBooksFromFirebase();
 </script>
 
 </body>
