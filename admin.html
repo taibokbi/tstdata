@@ -217,6 +217,51 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
     const analytics = firebase.analytics();
+<!-- سكربت تحديث صور الكتب تلقائياً -->
+<script>
+async function autoFillBookImages() {
+  const categoriesSnapshot = await db.collection("categories").get();
+
+  for (const doc of categoriesSnapshot.docs) {
+    const categoryRef = doc.ref;
+    const data = doc.data();
+    const books = data.books || [];
+
+    const updatedBooks = await Promise.all(books.map(async (book) => {
+      if (book.image && book.image.trim() !== "") return book;
+
+      const query = `intitle:${book.title} inauthor:${book.author}`;
+      const url = `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(query)}`;
+
+      try {
+        const res = await fetch(url);
+        const result = await res.json();
+        const image = result.items?.[0]?.volumeInfo?.imageLinks?.thumbnail || "";
+
+        return { ...book, image };
+      } catch (e) {
+        console.error(`❌ فشل في تحميل الصورة للكتاب: ${book.title}`, e);
+        return book;
+      }
+    }));
+
+    await categoryRef.update({ books: updatedBooks });
+    console.log(`✅ تم تحديث الصور في القسم: ${doc.id}`);
+  }
+
+  alert("🎉 تم تحديث صور الكتب تلقائياً!");
+}
+
+// أضف زر لتشغيل العملية من واجهة الأدمن
+const initBtn = document.createElement("button");
+initBtn.textContent = "تحديث صور الكتب تلقائياً";
+initBtn.className = "btn btn-info";
+initBtn.style.marginTop = "10px";
+initBtn.onclick = autoFillBookImages;
+
+document.getElementById("initialization-section").appendChild(initBtn);
+document.getElementById("initialization-section").style.display = "block";
+</script>
 
     const defaultLibraryData = [
         // PASTE THE FULL defaultLibraryData ARRAY HERE
