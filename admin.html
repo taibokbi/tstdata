@@ -219,52 +219,6 @@
     const analytics = firebase.analytics();
 
 
-async function autoFillBookImages() {
-  const categoriesSnapshot = await db.collection("categories").get();
-
-  for (const doc of categoriesSnapshot.docs) {
-    const categoryRef = doc.ref;
-    const data = doc.data();
-    const books = data.books || [];
-
-    const updatedBooks = await Promise.all(books.map(async (book) => {
-      if (book.image && book.image.trim() !== "") return book;
-
-      const query = `intitle:${book.title} inauthor:${book.author}`;
-      const url = `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(query)}`;
-
-      try {
-        const res = await fetch(url);
-        const result = await res.json();
-        const image = result.items?.[0]?.volumeInfo?.imageLinks?.thumbnail || "";
-
-        return { ...book, image };
-      } catch (e) {
-        console.error(`❌ فشل في تحميل الصورة للكتاب: ${book.title}`, e);
-        return book;
-      }
-    }));
-
-    await categoryRef.update({ books: updatedBooks });
-    console.log(`✅ تم تحديث الصور في القسم: ${doc.id}`);
-  }
-
-  alert("🎉 تم تحديث صور الكتب تلقائياً!");
-}
-
-// ❗إضافة الزر في أي مكان (حتى لو لم تكن قاعدة البيانات فارغة)
-window.addEventListener('DOMContentLoaded', () => {
-  const section = document.querySelector("#initialization-section") || document.querySelector("#admin-panel");
-  if (!section) return;
-
-  const btn = document.createElement("button");
-  btn.textContent = "🔄 تحديث صور الكتب تلقائياً";
-  btn.className = "btn btn-info";
-  btn.style.margin = "20px auto";
-  btn.onclick = autoFillBookImages;
-
-  section.appendChild(btn);
-});
 
     const defaultLibraryData = [
         // PASTE THE FULL defaultLibraryData ARRAY HERE
@@ -1105,6 +1059,52 @@ window.addEventListener('DOMContentLoaded', () => {
         };
 
     });
+        <!-- زر تحديث صور الكتب تلقائيًا -->
+<button id="updateImagesButton" class="btn btn-warning" style="margin: 30px auto; display: block; font-size: 1.2em;">
+    🔄 تحديث صور الكتب تلقائيًا
+</button>
+
+
+
+
+        
+  async function autoFillBookImages() {
+    const categoriesSnapshot = await db.collection("categories").get();
+
+    for (const doc of categoriesSnapshot.docs) {
+      const categoryRef = doc.ref;
+      const data = doc.data();
+      const books = data.books || [];
+
+      const updatedBooks = await Promise.all(books.map(async (book) => {
+        if (book.image && book.image.trim() !== "") return book;
+
+        const query = `intitle:${book.title} inauthor:${book.author}`;
+        const url = `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(query)}`;
+
+        try {
+          const res = await fetch(url);
+          const result = await res.json();
+          const image = result.items?.[0]?.volumeInfo?.imageLinks?.thumbnail || "";
+
+          return { ...book, image };
+        } catch (e) {
+          console.error(`❌ فشل في تحميل الصورة للكتاب: ${book.title}`, e);
+          return book;
+        }
+      }));
+
+      await categoryRef.update({ books: updatedBooks });
+      console.log(`✅ تم تحديث الصور في القسم: ${doc.id}`);
+    }
+
+    alert("🎉 تم تحديث صور الكتب تلقائياً!");
+  }
+
+  // ربط الزر بالوظيفة
+  document.getElementById("updateImagesButton").addEventListener("click", autoFillBookImages);
+
+
     </script>
 </body>
 </html>
