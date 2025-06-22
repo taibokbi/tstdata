@@ -217,8 +217,8 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
     const analytics = firebase.analytics();
-<!-- سكربت تحديث صور الكتب تلقائياً -->
-<script>
+
+
 async function autoFillBookImages() {
   const categoriesSnapshot = await db.collection("categories").get();
 
